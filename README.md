@@ -1,7 +1,7 @@
 # Scrappy
 
 Source code for the CHI2021 paper 
-Scrappy: Using Scrap Material as Infill to Make Fabrication More Sustainable
+**Scrappy: Using Scrap Material as Infill to Make Fabrication More Sustainable**
 DOI: https://doi.org/10.1145/3411764.3445187
 
 # Server side installation
