@@ -1,0 +1,47 @@
+{
+    "parameterSets": {
+        "design default values": {
+            "$fa": "4",
+            "$fs": "1",
+            "can_Bot_Indent_Depth": "2.2",
+            "can_Bot_Indent_Diameter": "74.5",
+            "can_Bot_Rim_Height": "0",
+            "can_Bot_Rim_Thickness": "0",
+            "can_Diameter": "85.8",
+            "can_Height": "38",
+            "can_Thickness": "0.6",
+            "can_Top_Rim_Height": "3.1",
+            "can_Top_Rim_Thickness": "1.2",
+            "empty": "true"
+        },
+        "Tuna": {
+            "$fa": "4",
+            "$fs": "1",
+            "can_Bot_Indent_Depth": "2.2",
+            "can_Bot_Indent_Diameter": "74.5",
+            "can_Bot_Rim_Height": "0",
+            "can_Bot_Rim_Thickness": "0",
+            "can_Diameter": "85.8",
+            "can_Height": "38",
+            "can_Thickness": "0.6",
+            "can_Top_Rim_Height": "3.1",
+            "can_Top_Rim_Thickness": "1.2",
+            "empty": "true"
+        },
+        "Soup": {
+            "$fa": "4",
+            "$fs": "1",
+            "can_Bot_Indent_Depth": "1.6",
+            "can_Bot_Indent_Diameter": "97.9",
+            "can_Bot_Rim_Height": "3",
+            "can_Bot_Rim_Thickness": "1.3",
+            "can_Diameter": "99.2",
+            "can_Height": "114.5",
+            "can_Thickness": "0.6",
+            "can_Top_Rim_Height": "0",
+            "can_Top_Rim_Thickness": "0",
+            "empty": "true"
+        }
+    },
+    "fileFormatVersion": "1"
+}

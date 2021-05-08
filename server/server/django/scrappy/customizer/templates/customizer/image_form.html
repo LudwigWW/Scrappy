@@ -1,0 +1,20 @@
+{% load static %}
+
+{% block image_form %}
+    <label for="scrap_image_holder_{{customizerClass.id}}">Image of your scrap in its storage location</label>
+
+    <form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
+        {{ imageForm }}
+        {% comment %} <button type="submit">Save</button> {% endcomment %}
+        <br>
+        <input type="submit" value="Save new scrap image">
+        <input type="hidden" name="postType" value="customizer_upload_image"> 
+        
+    </form>
+    <input type="submit" data-imagemodelfield="scrap_image_holder" value="Delete current image" style="margin-right:auto" id="scrap_image_holder_button_{{customizerClass.id}}" name="scrap_image_holder" onclick="imageDeleteButton.call(this);" {% if customizerClass.scrap_image_holder %}{% else %} hidden{% endif %}></button>
+
+    {% comment %} <img class="card-img-top img-fluid" id="scrap_image_{{customizerClass.id}}" src="{{ customizerClass.scrap_image_url|default_if_none:{% static 'img/Placeholder_image.png' %} }}" alt="user uploaded scrap image"> {% endcomment %}
+    <img class="card-img-top img-fluid" id="scrap_image_{{customizerClass.id}}" src="{% if customizerClass.scrap_image_holder %}{{ customizerClass.scrap_image_url|default_if_none:'#' }}{% else %}{% static 'img/Placeholder_image.png' %}{% endif %}" alt="user uploaded scrap image" {% if customizerClass.scrap_image_holder %} {% else %} hidden{% endif %}>
+    
+    {% comment %} {{ customizerClass.scrap_image_url|default_if_none:'#' }} {% endcomment %}
+{% endblock %}

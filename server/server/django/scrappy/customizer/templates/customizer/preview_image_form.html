@@ -1,0 +1,12 @@
+{% extends 'customizer/scrap_images_form.html' %}
+{% block form_area %}
+    {{ previewForm }}
+{% endblock %}
+
+{% block post_type_field %}
+    <input type="hidden" name="postType" value="scrap_detail_page_upload_preview_image"> 
+{% endblock post_type_field %}
+
+{% block delete_button %}
+    <input type="submit" value="Delete current image" data-imagemodelfield="preview_image" style="margin-right:auto" id="preview_image_button_{{scrapObject.id}}", name="preview_image", onclick="imageDeleteButton.call(this);", {% if scrapObject.preview_image %}{% else %} hidden{% endif %}></button>
+{% endblock delete_button %}

@@ -1,0 +1,200 @@
+{% extends 'customizer/base_left_bar.html' %}
+{% load static %}
+
+{% block just_title %}
+    <title>ScrapObject Details</title>
+{% endblock just_title %}
+
+{% block left_bar %}
+    <h1 class="my-4">ID: {{scrapObject.scrap_id}}</h1>
+    <form action="{% url 'customizer:scrapObject' scrapObject.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="postType" value="scrapObject_update"> 
+
+        <p class="card-text">How often do have these?</p>
+        <input type="range" class="scrapObject_range_slider" id="scrapObject_frequency{{ scrapObject.id }}" name="{{scrapObject.scrap_id}}" min="0" max="4" value="{{scrapObject.frequency}}" step="1">
+        <span id="scrapObject_frequency_text{{ scrapObject.id }}">{{scrapObject.frequency_text}}</span>
+        <hr>
+        <p class="card-text">How many do you have now?</p>
+        <input type="number" id="scrapObject_number_stored{{ scrapObject.id }}" name="{{scrapObject.scrap_id}}" min="0" value="{{scrapObject.number_stored}}">
+        <hr>
+        {% comment %} Scrap hint {% endcomment %}
+        <label for="scrap_description_holder_{{scrapObject.id}}">Describe where you keep this scrap so you can find it again easily</label>
+        <textarea id="scrap_description_holder_{{scrapObject.id}}" name="scrap_description_holder" rows="4">
+        {{scrapObject.storage_hint}}
+        </textarea>
+        <hr>
+
+        {% block listener_scrapObject %}
+            <script>
+                // Frequency slider listener
+                var frequency_options = ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'];
+                $("#scrapObject_frequency{{scrapObject.id}}").change(function () {
+
+                    console.log( $(this).val() );
+                    var changedValue = $(this).val();
+                    var changedObject = $(this).attr('name');
+                    // Change text according to slider
+                    $('#scrapObject_frequency_text{{scrapObject.id}}').text(frequency_options[changedValue]);
+                    var changedText = frequency_options[changedValue];
+                    var form = $(this).closest("form");
+                    $.ajax({
+                        url: form.attr("data-STL_overview-url"),
+                        //data: form.serialize(),
+                        data: {
+                            'changedObject' : changedObject,
+                            'changedValue': changedValue,
+                            'changedText' : changedText,
+                            'getType' : 'scrapObject_frequency_change'
+                        },  
+                        dataType: 'json',
+                        
+                        success: function (data) {
+                            //('#preview_{{customizerClass.id}}').attr('src', "{% static 'img/' %}" + data.preview_image + ".png");
+                        }
+                    });
+                });
+
+                // Number input listener
+                $("#scrapObject_number_stored{{scrapObject.id}}").change(function () {
+
+                    console.log( $(this).val() );
+                    var changedValue = $(this).val();
+                    var changedObject = $(this).attr('name');
+                    var form = $(this).closest("form");
+                    $.ajax({
+                        url: form.attr("data-STL_overview-url"),
+                        //data: form.serialize(),
+                        data: {
+                            'changedObject' : changedObject,
+                            'changedValue': changedValue,
+                            'getType' : 'scrapObject_number_stored_change'
+                        },  
+                        dataType: 'json',
+                        
+                        success: function (data) {
+                            //('#preview_{{customizerClass.id}}').attr('src', "{% static 'img/' %}" + data.preview_image + ".png");
+                        }
+                    });
+                });
+            </script>
+        {% endblock %}
+
+        <input type="submit" value="Update scrap object">
+    </form>
+    <br>
+
+{% endblock %}
+
+{% block content %}
+    <div class="card-body">
+        <h3 class="card-title"><input type="text" class="scrapObject_text_input" id="scrap_name_holder_{{scrapObject.id}}" name="scrap_name_holder" value="{{scrapObject.name_by_user}}">
+    </h3>
+    </div>
+
+    {% comment %} Preview image {% endcomment %}
+    <img class="card-img-top img-fluid" id="preview_image_{{scrapObject.id}}" src="{% if scrapObject.preview_image %}{{ scrapObject.preview_image_url|default_if_none:'#' }}{% else %}{% static 'img/Placeholder_image.png' %}{% endif %}" alt="user uploaded scrap image" {% if scrapObject.preview_image %} {% else %} hidden{% endif %}>
+    {% comment %} <img class="card-img-top img-fluid" id="preview_image_{{scrapObject.id}}" src="{{MEDIA_URL}}{{scrapObject.preview_image.url}}" alt=""> {% endcomment %}
+    {% include "customizer/preview_image_form.html" %}
+    {% if scrapObject.preview_image %}<hr> {% endif %}
+
+
+    {% comment %} Storage picture {% endcomment %}
+    <img class="card-img-top img-fluid" id="storage_picture_{{scrapObject.id}}" src="{% if scrapObject.storage_picture %}{{ scrapObject.storage_picture_url|default_if_none:'#' }}{% else %}{% static 'img/Placeholder_image.png' %}{% endif %}" alt="user uploaded storage picture" {% if scrapObject.storage_picture %} {% else %} hidden{% endif %}>
+    {% comment %} <img class="card-img-top img-fluid" id="preview_image_{{scrapObject.id}}" src="{{MEDIA_URL}}{{scrapObject.preview_image.url}}" alt=""> {% endcomment %}
+    {% include "customizer/storage_image_form.html" %}
+    {% if scrapObject.storage_picture %}<hr> {% endif %}
+
+    {% comment %} <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>   {% endcomment %}
+
+    {% comment %} Scrap image {% endcomment %}
+    
+    
+    
+
+    {% comment %} <img id="scrap_image_2{{scrapObject.id}}" src="{{scrapObject.scrap_image_holder.url}}" alt="user uploaded scrap image" {% if scrapObject.scrap_image_holder == None %}hidden{% endif %}> {% endcomment %}
+    
+
+
+    {% comment %} <label for="scrap_image_holder_{{scrapObject.id}}">Image of your scrap in its storage location</label>
+    <input type="file" id="scrap_image_holder_{{scrapObject.id}}" name="scrap_image_holder" accept="image/png, image/jpeg">
+    <button id="scrap_image_holder_button_{{scrapObject.id}}", name="scrap_image_holder", onclick="imageDeleteButton.call(this);", {% if scrapObject.scrap_image_holder == None %}hidden{% endif %}>Delete</button> {% endcomment %}
+    
+
+    {% block listener_text1 %}
+        <script>
+            $("#scrap_name_holder_{{scrapObject.id}}").change(function () {
+                console.log( $(this).val() );
+                var textVal = $(this).val();
+                var textName = $(this).attr('name');
+
+                var form = $(this).closest("form");
+                $.ajax({
+                    url: form.attr("data-customizer-class-url"),
+                    data: {
+                        'textVal' : textVal,
+                        'textName': textName,
+                        'getType' : 'scrapObject_name_change'
+                    },  
+                    dataType: 'json'
+                });
+            });
+            $("#scrap_description_holder_{{scrapObject.id}}").change(function () {
+                console.log( $(this).val() );
+                var textVal = $(this).val();
+                var textName = $(this).attr('name');
+
+                var form = $(this).closest("form");
+                $.ajax({
+                    url: form.attr("data-customizer-class-url"),
+                    data: {
+                        'textVal' : textVal,
+                        'textName': textName,
+                        'getType' : 'scrapObject_name_change'
+                    },  
+                    dataType: 'json'
+                });
+            });
+            {% comment %} $("#scrap_image_holder_{{scrapObject.id}}").change(function () {
+                console.log( $(this).val() );
+                var imageVal = $(this).val();
+                var imageName = $(this).attr('name');
+                console.log("Changed");
+
+                var form = $(this).closest("form");
+                $.ajax({
+                    url: form.attr("data-customizer-class-url"),
+                    data: {
+                        'imageVal' : imageVal,
+                        'imageName' : imageName,
+                        'delete' : false,
+                        'getType' : 'scrapObject_image'
+                    },  
+                    dataType: 'json',
+
+                    success: function (data) {
+                        if (data.successful) {
+                            $('#scrap_image_holder_button_'+data.scrapObjectId).show();
+                        }
+                    }
+                });
+            }); {% endcomment %}
+        </script>
+    {% endblock %}
+
+    {% block javascript %}{% endblock %}
+{% endblock %}
+
+
+<h1>{{ question.question_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'customizer:vote' question.id %}" method="post">
+{% csrf_token %}
+{% for choice in question.choice_set.all %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+{% endfor %}
+<input type="submit" value="Vote">
+</form>

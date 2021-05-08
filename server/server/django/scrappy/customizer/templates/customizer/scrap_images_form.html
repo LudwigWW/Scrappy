@@ -1,0 +1,22 @@
+{% load static %}
+
+{% block scrap_images_form %}
+    {% comment %} <label for="preview_image_{{scrapObject.id}}">Image of your scrap in its storage location</label> {% endcomment %}
+
+    <form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
+        {% block form_area %}
+        {% endblock %}
+        <br>
+        <input type="submit" value="Save new image">
+        {% block post_type_field %}
+        {% endblock post_type_field %}
+        
+    </form>
+
+    {% block delete_button %}
+    {% endblock delete_button %}
+    {% comment %} <img class="card-img-top img-fluid" id="scrap_image_{{scrapObject.id}}" src="{{ scrapObject.scrap_image_url|default_if_none:{% static 'img/Placeholder_image.png' %} }}" alt="user uploaded scrap image"> {% endcomment %}
+    {% comment %} <img class="card-img-top img-fluid" id="scrap_image_{{scrapObject.id}}" src="{% if scrapObject.preview_image %}{{ scrapObject.preview_image_url|default_if_none:'#' }}{% else %}{% static 'img/Placeholder_image.png' %}{% endif %}" alt="user uploaded scrap image" {% if scrapObject.preview_image %} {% else %} hidden{% endif %}> {% endcomment %}
+    
+    {% comment %} {{ scrapObject.scrap_image_url|default_if_none:'#' }} {% endcomment %}
+{% endblock %}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body style="overflow-x: hidden;">
+        <button type="button" onclick="sendSimpleSignal('UpdateHTML', '')">Update view!</button> 
+        <br /><br />
+        <button type="button" onclick="sendUpdateScrapSignal()">Update scrap!</button> 
+        <br /><br />
+        <div id="scrapContainerDiv" style="width: 90vw; background-color: white; color: white;">
+            <div id="scrapObjDiv" style="width: 88vw; background-color: white; color: black; margin-left: auto; margin-right: auto;">Enter IP: <input type="text" id="ipArea" name="ipArea"><button type="scrapObjButton" onclick="sendIPToFusion('ipArea')">Send IP</button></div>
+            <div id="addScrapObjDivsDiv"></div>
+        </div>
+    </body>
+    <script>
+        function sendInfoToFusion(){
+            var args = {
+                arg1 : "Sample argument 1",
+                arg2 : "Sample argument 2"
+            };
+            adsk.fusionSendData('send', JSON.stringify(args));
+        }
+
+        function sendIPToFusion(ip_field_id){
+            var args = {
+                arg1 : "IP",
+                arg2 : document.getElementById(ip_field_id).value
+            };
+            adsk.fusionSendData('send', JSON.stringify(args));
+        }
+
+        function sendSimpleSignal(signalOperation, data){
+            var args = {
+                arg1 : signalOperation,
+                arg2 : data
+            };
+            adsk.fusionSendData('send', JSON.stringify(args));
+        }
+
+        function sendUpdateScrapSignal(){
+            var dateNow = new Date();
+            var now = dateNow.toLocaleTimeString();
+            var args = {
+                arg1 : "UpdateScrap",
+                arg2 : now
+            };
+            adsk.fusionSendData('send', JSON.stringify(args));
+        }
+        
+        window.fusionJavaScriptHandler = {handle: function(action, data){
+            try {
+                if (action == 'send') {
+					// Update a paragraph with the data passed in.
+					document.getElementById('p1').innerHTML = data;
+				}
+				else if (action == 'debugger') {
+                    debugger;
+				}
+				else {
+					return 'Unexpected command type: ' + action;
+                }
+            } catch (e) {
+                console.log(e);
+                console.log('exception caught with command: ' + action + ', data: ' + data);
+            }
+            return 'OK';
+        }};
+    </script>
+</html>

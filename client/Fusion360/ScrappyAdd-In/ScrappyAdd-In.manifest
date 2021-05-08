@@ -1,0 +1,13 @@
+{
+	"autodeskProduct":	"Fusion360",
+	"type":	"addin",
+	"id":	"8269ed75-fa97-4112-84b2-b5a487bf89f3",
+	"author":	"Ludwig Wilhelm Wall",
+	"description":	{
+		"Scrappy":	"Creates the Scrappy user interface and run-time logic"
+	},
+	"version":	"1.0",
+	"runOnStartup":	false,
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}

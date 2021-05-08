@@ -1,0 +1,6 @@
+[submodule "BinPack2D"]
+	path = BinPack2D
+	url = https://github.com/alecjacobson/BinPack2D.git
+[submodule "libigl"]
+	path = libigl
+	url = https://github.com/libigl/libigl/

@@ -1,0 +1,49 @@
+{
+    "parameterSets": {
+        "Tim_Hortons_L": {
+            "$fa": "4",
+            "$fs": "1",
+            "cup_Bot_Outer_Diameter": "64.1",
+            "cup_Foot_Height": "11.6",
+            "cup_Height": "149.5",
+            "cup_Lip_Diameter": "3.8",
+            "cup_Thickness": "1.3",
+            "cup_Top_Inner_Diameter": "84",
+            "empty": "false"
+        },
+        "Tim_Hortons_S": {
+            "$fa": "4",
+            "$fs": "1",
+            "cup_Bot_Outer_Diameter": "64.1",
+            "cup_Foot_Height": "11.3",
+            "cup_Height": "124",
+            "cup_Lip_Diameter": "3.8",
+            "cup_Thickness": "1.3",
+            "cup_Top_Inner_Diameter": "81.8",
+            "empty": "true"
+        },
+        "Hefty_Large": {
+            "$fa": "4",
+            "$fs": "1",
+            "cup_Bot_Outer_Diameter": "60",
+            "cup_Foot_Height": "18",
+            "cup_Height": "144.3",
+            "cup_Lip_Diameter": "3.3",
+            "cup_Thickness": "0.9",
+            "cup_Top_Inner_Diameter": "82",
+            "empty": "false"
+        },
+        "design default values": {
+            "$fa": "4",
+            "$fs": "1",
+            "cup_Bot_Outer_Diameter": "63.9",
+            "cup_Foot_Height": "11.5",
+            "cup_Height": "149.3",
+            "cup_Lip_Diameter": "3.6",
+            "cup_Thickness": "1.3",
+            "cup_Top_Inner_Diameter": "83.9",
+            "empty": "true"
+        }
+    },
+    "fileFormatVersion": "1"
+}

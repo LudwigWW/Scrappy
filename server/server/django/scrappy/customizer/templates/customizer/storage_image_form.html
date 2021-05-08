@@ -1,0 +1,11 @@
+{% extends 'customizer/scrap_images_form.html' %}
+{% block form_area %}
+    {{ storageForm }}
+{% endblock %}
+{% block post_type_field %}
+    <input type="hidden" name="postType" value="scrap_detail_page_upload_storage_picture"> 
+{% endblock post_type_field %}
+
+{% block delete_button %}
+    <input type="submit" value="Delete current image" data-imagemodelfield="storage_picture" style="margin-right:auto" id="storage_picture_button_{{scrapObject.id}}", name="storage_picture", onclick="imageDeleteButton.call(this);", {% if scrapObject.storage_picture %}{% else %} hidden{% endif %}></button>
+{% endblock delete_button %}

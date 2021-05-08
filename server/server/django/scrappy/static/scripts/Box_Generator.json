@@ -1,0 +1,14 @@
+{
+    "parameterSets": {
+        "design default values": {
+            "box_Back_Height": "0",
+            "box_Bot_Length": "200",
+            "box_Bot_Width": "150",
+            "box_Front_Height": "50",
+            "box_Rounded_Corner_Diameter": "4.9",
+            "box_Top_Length": "0",
+            "box_Top_Width": "0"
+        }
+    },
+    "fileFormatVersion": "1"
+}

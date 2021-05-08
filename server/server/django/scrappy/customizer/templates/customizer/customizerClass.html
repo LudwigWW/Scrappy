@@ -1,0 +1,198 @@
+{% extends 'customizer/base_left_bar.html' %}
+{% load static %}
+
+{% block just_title %}
+    <title>Scrappy customizer</title>
+{% endblock just_title %}
+
+{% block left_bar %}
+    <h1 class="my-4">{{customizerClass.ui_name}}</h1>
+    <form action="{% url 'customizer:customizerClass' customizerClass.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="postType" value="customizer_save_STL"> 
+        {% for slider in customizerClass.sliders.all %}
+            {% comment %} <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br> {% endcomment %}
+            <label for="{{slider.id}}">{{slider.input_description}}</label>
+            <br>
+            <input type="range" class="customizer_range_slider" id="slider{{ slider.id }}" name="{{slider.input_name}}" min="{{slider.min_int}}" max="{{slider.max_int}}" value="{{slider.value}}" step="{{slider.step_size}}">
+            <!--id="slider{{ forloop.counter }}"-->
+            <hr>
+            
+
+            {% block listener_slider %}
+                <script>
+                    $("#slider{{slider.id}}").change(function () {
+                        console.log( $(this).val() );
+                        var sliderVal = $(this).val();
+                        var sliderName = $(this).attr('name');
+
+                        var form = $(this).closest("form");
+                        $.ajax({
+                            url: form.attr("data-customizer-class-url"),
+                            //data: form.serialize(),
+                            data: {
+                                'sliderName' : sliderName,
+                                'sliderVal': sliderVal,
+                                'getType' : 'customizer_slider_change'
+                            },  
+                            dataType: 'json',
+                            
+                            success: function (data) {
+                                $('#preview_{{customizerClass.id}}').attr('src', "{% static 'img/' %}" + data.preview_image + ".png");
+                            }
+                        });
+                    });
+                </script>
+            {% endblock %}
+        {% endfor %} {% comment %} endfor slider {% endcomment %}
+
+
+        {% for toggle in customizerClass.toggles.all %}
+
+            <input type="checkbox" id="toggle{{ toggle.id }}" name="{{toggle.input_name}}" value="{{toggle.input_name}}" {% if toggle.value %}checked{% endif %}>
+            <label for="{{toggle.id}}">{{toggle.input_description}}</label>
+            <br>
+            {% block listener_toggle %}
+                <script>
+                    $("#toggle{{toggle.id}}").change(function () {
+                        console.log( $(this).val() );
+                        var toggleVal = $(this).is(':checked');
+                        var toggleName = $(this).attr('name');
+
+                        var form = $(this).closest("form");
+                        $.ajax({
+                            url: form.attr("data-customizer-class-url"),
+                            //data: form.serialize(),
+                            data: {
+                                'toggleVal': toggleVal,
+                                'toggleName' : toggleName,
+                                'getType' : 'customizer_toggle_change'
+                            },  
+                            dataType: 'json',
+                            
+                            success: function (data) {
+                                $('#preview_{{customizerClass.id}}').attr('src', "{% static 'img/' %}" + data.preview_image + ".png");
+                            }
+                        });
+                    });
+                </script>
+            {% endblock %}
+        {% endfor %}
+
+        <input type="submit" value="Save new scrap as &quot;{{customizerClass.id_initials}}_{{customizerClass.stl_count}}&quot;">
+    </form>
+    <br>
+
+    {% comment %} Camera navigation widget {% endcomment %}
+    <h3 class="card-title">Preview camera</h3>
+    <div class="circleBase" id="rotateMode">
+        <button id="left" class="btn btn-secondary btn-sm" onclick="cameraButton.call(this);"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+        <button id="right" class="btn btn-secondary btn-sm" onclick="cameraButton.call(this);"><i class="fa fa-arrow-right" aria-hidden="true"></i>
+        </button>
+        <button id="up" class="btn btn-secondary btn-sm" onclick="cameraButton.call(this);"><i class="fa fa-arrow-up" aria-hidden="true"></i>
+        </button>
+        <button id="down" class="btn btn-secondary btn-sm" onclick="cameraButton.call(this);"><i class="fa fa-arrow-down" aria-hidden="true"></i>
+        </button>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+    <div class="card-body">
+        <h3 class="card-title">Preview</h3>
+    </div>
+
+    {% comment %} Preview image {% endcomment %}
+    <img class="card-img-top img-fluid" id="preview_{{customizerClass.id}}" src="{% static 'img/' %}{{customizerClass.class_name}}{{customizerClass.preview_counter}}.png" alt="Customizr preview image">
+    <hr>
+
+    {% comment %} Scrap name {% endcomment %}
+    <label for="scrap_name_holder_{{customizerClass.id}}">Name for your new scrap item</label>
+    <input type="text" class="customizer_text_input" id="scrap_name_holder_{{customizerClass.id}}" name="scrap_name_holder" value="{{customizerClass.scrap_name_holder}}">
+    <hr>
+
+    {% comment %} Scrap hint {% endcomment %}
+    <label for="scrap_description_holder_{{customizerClass.id}}">Describe where you keep this scrap so you can find it again easily</label>
+    <textarea id="scrap_description_holder_{{customizerClass.id}}" name="scrap_description_holder" rows="4">
+    {{customizerClass.scrap_description_holder}}
+    </textarea>
+    <hr>
+
+    {% comment %} <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>   {% endcomment %}
+
+    {% comment %} Scrap image {% endcomment %}
+    {% include "customizer/image_form.html" %}
+    {% comment %} <img id="scrap_image_2{{customizerClass.id}}" src="{{customizerClass.scrap_image_holder.url}}" alt="user uploaded scrap image" {% if customizerClass.scrap_image_holder == None %}hidden{% endif %}> {% endcomment %}
+    
+
+
+    {% comment %} <label for="scrap_image_holder_{{customizerClass.id}}">Image of your scrap in its storage location</label>
+    <input type="file" id="scrap_image_holder_{{customizerClass.id}}" name="scrap_image_holder" accept="image/png, image/jpeg">
+    <button id="scrap_image_holder_button_{{customizerClass.id}}", name="scrap_image_holder", onclick="imageDeleteButton.call(this);", {% if customizerClass.scrap_image_holder == None %}hidden{% endif %}>Delete</button> {% endcomment %}
+    
+
+    {% block listener_text1 %}
+        <script>
+            $("#scrap_name_holder_{{customizerClass.id}}").change(function () {
+                console.log( $(this).val() );
+                var textVal = $(this).val();
+                var textName = $(this).attr('name');
+
+                var form = $(this).closest("form");
+                $.ajax({
+                    url: form.attr("data-customizer-class-url"),
+                    data: {
+                        'textVal' : textVal,
+                        'textName': textName,
+                        'getType' : 'customizer_name_change'
+                    },  
+                    dataType: 'json'
+                });
+            });
+            $("#scrap_description_holder_{{customizerClass.id}}").change(function () {
+                console.log( $(this).val() );
+                var textVal = $(this).val();
+                var textName = $(this).attr('name');
+
+                var form = $(this).closest("form");
+                $.ajax({
+                    url: form.attr("data-customizer-class-url"),
+                    data: {
+                        'textVal' : textVal,
+                        'textName': textName,
+                        'getType' : 'customizer_name_change'
+                    },  
+                    dataType: 'json'
+                });
+            });
+            {% comment %} $("#scrap_image_holder_{{customizerClass.id}}").change(function () {
+                console.log( $(this).val() );
+                var imageVal = $(this).val();
+                var imageName = $(this).attr('name');
+                console.log("Changed");
+
+                var form = $(this).closest("form");
+                $.ajax({
+                    url: form.attr("data-customizer-class-url"),
+                    data: {
+                        'imageVal' : imageVal,
+                        'imageName' : imageName,
+                        'delete' : false,
+                        'getType' : 'customizer_image'
+                    },  
+                    dataType: 'json',
+
+                    success: function (data) {
+                        if (data.successful) {
+                            $('#scrap_image_holder_button_'+data.customizerClassId).show();
+                        }
+                    }
+                });
+            }); {% endcomment %}
+        </script>
+    {% endblock %}
+
+    {% block javascript %}{% endblock %}
+{% endblock %}

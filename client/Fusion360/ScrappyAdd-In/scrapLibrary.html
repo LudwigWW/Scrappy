@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body style="overflow-x: hidden;">
+        <button type="button" onclick="sendSimpleSignal('UpdateHTML', '')">Update view!</button> 
+        <br /><br />
+        <button type="button" onclick="sendUpdateScrapSignal()">Update scrap!</button> 
+        <br /><br />
+        <div id="scrapContainerDiv" style="width: 90vw; background-color: white; color: white;">
+            <div id="scrapObjDiv" style="width: 88vw; background-color: white; color: black; margin-left: auto; margin-right: auto;">Enter IP: <input type="text" id="ipArea" name="ipArea"><button type="scrapObjButton" onclick="sendIPToFusion('ipArea')">Send IP</button></div>
+            <!--Lid_Dried_Tomatoes_Small.stl--><div id="scrapObjDiv_Lid_Dried_Tomatoes_Small_Full.stl" style="display: Block; width: 88vw; margin-top: 5px; margin-bottom: 5px; text-align: left;">
+    <img src="D:/Dropbox/Eigenes/UWaterloo_Courses/PhD/Scrappy/Fusion360/ScrappyAdd-In/Resources/LibraryImages/Lid_Dried_Tomatoes_Small.png" style="width: 88vw;" alt="Lid_Dried_Tomatoes_Small_Full">
+    <div style="text-align: center;"><button type="scrapObjButton" onclick="sendSimpleSignal('PreviewScrap', 3)">Preview Lid_Dried_Tomatoes_Small_Full</button><button type="scrapObjButton" onclick="sendSimpleSignal('RequestScrap', 3)">Request mesh Lid_Dried_Tomatoes_Small_Full</button></div>
+</div>
+<!--Lid_Dried_Tomatoes_Small.stl--><!--473mlCan.stl--><div id="scrapObjDiv_473mlCan_Full.stl" style="display: None; width: 88vw; margin-top: 5px; margin-bottom: 5px; text-align: left;">
+    <img src="D:/Dropbox/Eigenes/UWaterloo_Courses/PhD/Scrappy/Fusion360/ScrappyAdd-In/Resources/LibraryImages/473mlCan.png" style="width: 88vw;" alt="473mlCan_Full">
+    <div style="text-align: center;"><button type="scrapObjButton" onclick="sendSimpleSignal('PreviewScrap', 0)">Preview 473mlCan_Full</button><button type="scrapObjButton" onclick="sendSimpleSignal('RequestScrap', 0)">Request mesh 473mlCan_Full</button></div>
+</div>
+<!--473mlCan.stl--><!--BB.stl--><div id="scrapObjDiv_BB_Full.stl" style="display: None; width: 88vw; margin-top: 5px; margin-bottom: 5px; text-align: left;">
+    <img src="D:/Dropbox/Eigenes/UWaterloo_Courses/PhD/Scrappy/Fusion360/ScrappyAdd-In/Resources/LibraryImages/BB.png" style="width: 88vw;" alt="BB_Full">
+    <div style="text-align: center;"><button type="scrapObjButton" onclick="sendSimpleSignal('PreviewScrap', 1)">Preview BB_Full</button><button type="scrapObjButton" onclick="sendSimpleSignal('RequestScrap', 1)">Request mesh BB_Full</button></div>
+</div>
+<!--BB.stl--><!--EggR.stl--><div id="scrapObjDiv_EggR_Full.stl" style="display: None; width: 88vw; margin-top: 5px; margin-bottom: 5px; text-align: left;">
+    <img src="D:/Dropbox/Eigenes/UWaterloo_Courses/PhD/Scrappy/Fusion360/ScrappyAdd-In/Resources/LibraryImages/EggR.png" style="width: 88vw;" alt="EggR_Full">
+    <div style="text-align: center;"><button type="scrapObjButton" onclick="sendSimpleSignal('PreviewScrap', 2)">Preview EggR_Full</button><button type="scrapObjButton" onclick="sendSimpleSignal('RequestScrap', 2)">Request mesh EggR_Full</button></div>
+</div>
+<!--EggR.stl-->
+        </div>
+    </body>
+    <script>
+        function sendInfoToFusion(){
+            var args = {
+                arg1 : "Sample argument 1",
+                arg2 : "Sample argument 2"
+            };
+            adsk.fusionSendData('send', JSON.stringify(args));
+        }
+
+        function sendIPToFusion(ip_field_id){
+            var args = {
+                arg1 : "IP",
+                arg2 : document.getElementById(ip_field_id).value
+            };
+            adsk.fusionSendData('send', JSON.stringify(args));
+        }
+
+        function sendSimpleSignal(signalOperation, data){
+            var args = {
+                arg1 : signalOperation,
+                arg2 : data
+            };
+            adsk.fusionSendData('send', JSON.stringify(args));
+        }
+
+        function sendUpdateScrapSignal(){
+            var dateNow = new Date();
+            var now = dateNow.toLocaleTimeString();
+            var args = {
+                arg1 : "UpdateScrap",
+                arg2 : now
+            };
+            adsk.fusionSendData('send', JSON.stringify(args));
+        }
+        
+        window.fusionJavaScriptHandler = {handle: function(action, data){
+            try {
+                if (action == 'send') {
+					// Update a paragraph with the data passed in.
+					document.getElementById('p1').innerHTML = data;
+				}
+				else if (action == 'debugger') {
+                    debugger;
+				}
+				else {
+					return 'Unexpected command type: ' + action;
+                }
+            } catch (e) {
+                console.log(e);
+                console.log('exception caught with command: ' + action + ', data: ' + data);
+            }
+            return 'OK';
+        }};
+    </script>
+</html>

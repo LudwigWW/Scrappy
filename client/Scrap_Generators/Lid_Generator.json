@@ -1,0 +1,18 @@
+{
+    "parameterSets": {
+        "dried_tomatoes_small": {
+            "$fa": "4",
+            "$fs": "1",
+            "indent_depth": "0.8",
+            "lid_Diameter": "66.8",
+            "lid_Height": "9.1",
+            "lid_Rim_Depth": "8",
+            "lid_Rim_Width": "3.2",
+            "ridge_Distance_From_Edge": "2.8",
+            "ridge_Height": "10",
+            "ridge_Width": "5.6"
+        }
+    },
+    "parameterSets": "",
+    "fileFormatVersion": "1"
+}
