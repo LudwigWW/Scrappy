@@ -51,7 +51,7 @@ python server.py
 # Client side installation
 
 1. Install Fusion360.
-2. Install Blender 2.9 [here] (https://www.blender.org/).
+2. Install Blender 2.9 [here](https://www.blender.org/).
 3. Add Scrappy add-in to Fusion360.
 ```sh
 Fusion360 -> Tools -> ADD-INNS --> Add-Inns --> Click the + sign to add existing add-in
