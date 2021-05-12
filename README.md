@@ -51,27 +51,32 @@ python server.py
 # Client side installation
 
 1. Install Fusion360.
-2. Add Scrappy add-in to Fusion360.
+2. Install Blender 2.9 [here] (https://www.blender.org/).
+3. Add Scrappy add-in to Fusion360.
 ```sh
 Fusion360 -> Tools -> ADD-INNS --> Add-Inns --> Click the + sign to add existing add-in
 Choose folder: client/Fusion360/ScrappyAdd-In
 ```
-3. Adjust IP to match server IP in `ScrappyAdd-In.py`.
+4. Adjust IP to match server IP in `ScrappyAdd-In.py`.
 ```sh
 In: client/Fusion360/ScrappyAdd-In/ScrappyAdd-In.py, line 56
 Adjust IP to matcher server IP
 ```
-4. In Fusion360, run the add-in.
-5. Show the scrapLibrary panel from the Tools panel to start using Scrappy.
-6. Install node.js.
-7. Start the kiri:moto slicer .
+5. In Fusion360, run the add-in.
+6. Show the scrapLibrary panel from the Tools panel to start using Scrappy.
+7. Install node.js.
+8. Start the kiri:moto slicer .
 ```
 cd client/grid-apps/
 npm i
 npm start
 ```
-8. Open [Kiri:Moto](http://localhost:8080/kiri) to use the slicer.
+9. Open [Kiri:Moto](http://localhost:8080/kiri) to use the slicer.
 
 # Network
 
 1. Ensure ports 46337-46998 and 47101-47557 are open.
+
+# Misc
+
+Please email ludwigwall(at)gmail.com if you have any questions.
